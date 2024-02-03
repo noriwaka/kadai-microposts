@@ -24,9 +24,18 @@ class UsersController extends Controller
         //idの値でユーザ検索
         $user = User::findOrFail($id);
         
+        
+        //ユーザに関連するモデルの件数をロードする
+        $user->loadRelationshipCounts();
+        
+        
+        $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        
+        
         //ユーザ詳細ビューで表示
         return view('users.show', [
             'user' => $user,
+            'microposts' => $microposts,
         ]);
     }
 }
