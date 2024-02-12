@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MicropostsController;
-use App\Http\controllers\UserFollowController;
+use App\Http\Controllers\UserFollowController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +24,7 @@ require __DIR__.'/auth.php';
 
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'users/{id}'], function () {
-        Route::post('follow', [UserFollowController::class, 'store'])->name('user.fllow');
+        Route::post('follow', [UserFollowController::class, 'store'])->name('user.follow');
         Route::delete('unfollow', [UserFollowController::class, 'destroy'])->name('user.unfollow');
         Route::get('followings', [UsersController::class, 'followings'])->name('users.followings');
         Route::get('followers', [UsersController::class, 'followers'])->name('users.followers');
