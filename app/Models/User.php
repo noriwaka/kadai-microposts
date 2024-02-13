@@ -123,8 +123,15 @@ class User extends Authenticatable
     
     //～お気に入り機能(User)～
     
+    
+    // このユーザーがお気に入りに入れている内容。（Micropostモデルとの関係を定義）
+    
     public function favorites()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Micropost::class, 'favorites', 'user_id', 'micropost_id');
     }
+    
+    
+    
+    
 }

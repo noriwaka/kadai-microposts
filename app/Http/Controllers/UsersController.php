@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Micropost;
 
 class UsersController extends Controller
 {
@@ -83,16 +84,22 @@ class UsersController extends Controller
     // ～お気に入り機能～
     
     
-    // お気に入りを一覧表示するページ
+    // ユーザのお気に入り一覧ページを表示する
+    
     public function favorites($id)
     {
+        // idの値でユーザを検索して取得
         $user = User::findOrFail($id);
         
+        // 関係するモデルの件数をロード
         $user->loadRelationshipCounts();
         
+        // ユーザのお気に入り一覧を取得
         $favorites = $user->favorites()->paginate(10);
         
+        // お気に入り一覧ビューでそれらを表示
         return view('users.favorites', [
+            'user' => $user,
             'favorites' => $favorites,
             ]);
     }

@@ -23,10 +23,10 @@ class Micropost extends Model
     // ～お気に入り機能～
     
     
-    // 多対多
+    //このマイクロポストをお気に入りに入れているユーザ。 (Userモデルとの関係を定義)
     
     public function favorite_users()
     {
-        return $this->belongsToMany();
+        return $this->belongsToMany(Micropost::class, 'favorites', 'micropost_id', 'user_id');
     }
 }
