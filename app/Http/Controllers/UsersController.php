@@ -80,11 +80,7 @@ class UsersController extends Controller
             ]);
     }
     
-    
-    // ～お気に入り機能～
-    
-    
-    // ユーザのお気に入り一覧ページを表示する
+    /// ユーザのお気に入り一覧ページを表示する
     
     public function favorites($id)
     {
@@ -97,7 +93,7 @@ class UsersController extends Controller
         // ユーザのお気に入り一覧を取得
         $favorites = $user->favorites()->paginate(10);
         
-        // お気に入り一覧ビューでそれらを表示
+        // フォロワー一覧をビューでそれらを表示
         return view('users.favorites', [
             'user' => $user,
             'favorites' => $favorites,
