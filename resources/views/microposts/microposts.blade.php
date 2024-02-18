@@ -28,7 +28,7 @@
                             @endif
                         </div>
                         <div>
-                            @if (Auth::id() == $micropost->user_id)
+                            @if (Auth::id() == $micropost->user->id)
                                 {{-- 投稿削除ボタンのフォーム --}}
                                 <form method="POST" action="{{ route('microposts.destroy', $micropost->id) }}">
                                     @csrf

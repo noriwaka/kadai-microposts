@@ -164,7 +164,7 @@ class User extends Authenticatable
         //すでにブックマークされているか確認する
         if ($this->exists_in_favorites($micropostId)) {
             $this->favorites()->detach($micropostId);
-            return ture;
+            return true;
         } else {
             return false;
         }
