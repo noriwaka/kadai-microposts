@@ -38,6 +38,15 @@
                         <button type="submit" class="btn btn-success btn-sm normal-case"
                                      onclick="return confirm('ユーザ = {{ $favorite->user->name }} のお気に入りを削除します。よろしいですか？')">Unfavorite</button>
                         </form>
+                         @if (Auth::id() == $favorite->user->id)
+                                {{-- 投稿削除ボタンのフォーム --}}
+                                <form method="POST" action="{{ route('microposts.destroy', $favorite->user->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-error btn-sm normal-case" 
+                                        onclick="return confirm('Delete id = {{ $favorite->user->id }} ?')">Delete</button>
+                                </form>
+                            @endif
                     </div>
                 </div>
             </li>
