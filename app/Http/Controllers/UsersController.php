@@ -84,16 +84,16 @@ class UsersController extends Controller
     
     public function favorites($id)
     {
-        // idの値でユーザを検索して取得
+        // idの値でユーザを検索してインスタンスを取得
         $user = User::findOrFail($id);
         
-        // 関係するモデルの件数をロード
+        // 関係するモデルの件数をロードし、上記の$userオブジェクトの属性として追加される。解説byChapGPT
         $user->loadRelationshipCounts();
         
-        // ユーザのお気に入り一覧を取得
+        // ユーザのお気に入り一覧を取得する
         $favorites = $user->favorites()->paginate(10);
         
-        // フォロワー一覧をビューでそれらを表示
+        // お気に入り一覧をビューでそれらを表示
         return view('users.favorites', [
             'user' => $user,
             'favorites' => $favorites,

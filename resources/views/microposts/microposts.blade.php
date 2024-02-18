@@ -19,35 +19,15 @@
                             {{-- 投稿内容 --}}
                             <p class="mb-0">{!! nl2br(e($micropost->content)) !!}</p>
                         </div>
-                        <div> 
-                        <!--以下から40まで、お気に入り登録削除ボタン仮作成予定-->
-                            @if (Auth::check())
-                                @if (Auth::user()->is_following($micropost->id))
-                                    {{-- アンフォローボタンのフォーム --}}
-                                    <form method="POST" action="{{ route('favorites.favorite', $micropost->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-success btn-block normal-case" 
-                                            onclick="return confirm('id = {{ $user->id }} のフォローを外します。よろしいですか？')">Unfavorite</button>
-                                    </form>
-                                @else
-                                    {{-- お気に入り登録ボタンのフォーム --}}
-                                    <form method="POST" action="{{ route('favorites.favorite', $micropost->id) }}">
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline btn-block normal-case">favorite</button>
-                                    </form>
-                                @endif
-                            @endif
-                            @if (Auth::id() == $micropost->user_id)
-                                {{-- お気に入り削除ボタンのフォーム --}}
-                                <form method="POST" action="{{ route('microposts.destroy', $micropost->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-success btn-sm normal-case" 
-                                        onclick="return confirm('Delete id = {{ $micropost->id }} ?')">Favorite</button>
+                        <div>
+                            @if (!Auth::user()->exists_in_favorites($micropost->id))
+                                {{-- お気に入り登録ボタンのフォーム --}}
+                        　　  　  <form method="POST" action="{{ route('favorites.favorite', $micropost->id) }}">
+                                    @csrf<button type="submit" class="btn btn-outline btn-sm normal-case">favorite</button>
                                 </form>
-                            @else (Auth::id
                             @endif
+                        </div>
+                        <div>
                             @if (Auth::id() == $micropost->user_id)
                                 {{-- 投稿削除ボタンのフォーム --}}
                                 <form method="POST" action="{{ route('microposts.destroy', $micropost->id) }}">

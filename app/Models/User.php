@@ -62,6 +62,7 @@ class User extends Authenticatable
     
     public function followings()
     {
+        //関係先のModelクラス、中間テーブル名、中間テーブルに保存されている自分のid、関係先のidを指定
         return $this->belongsToMany(User::class, 'user_follow', 'user_id', 'follow_id')->withTimestamps();
     }
     
@@ -123,7 +124,7 @@ class User extends Authenticatable
     
     
     //～お気に入り機能　以下追記
-    // このユーザーがお気に入りに入れている内容(マイクロポスト）。（Micropostモデルとの関係を定義）
+    // このユーザーがお気に入りにいれている投稿。（Micropostモデルとの関係を定義）
     
     public function favorites()
     {
@@ -153,7 +154,7 @@ class User extends Authenticatable
         // このユーザがbookmark中のmicropostのidを取得して配列にする
         $micropostIds = $this->favorites()->pluck('id')->toArray();
         // それらのユーザが所有する投稿に絞り込む
-        return Micropost::whereIn('id', $$micropostIds);
+        return Micropost::whereIn('id', $micropostIds);
     }
     
     // microostIdで指定されたマイクロポストをお気に入りから削除する。
@@ -162,21 +163,10 @@ class User extends Authenticatable
     {
         //すでにブックマークされているか確認する
         if ($this->exists_in_favorites($micropostId)) {
-            return $this->favorites()->detach($micropostId);
+            $this->favorites()->detach($micropostId);
+            return ture;
         } else {
             return false;
         }
     }
-    /*ChatGpt案
-    public function remove_from_bookmark($micropostId)
-    {
-    // すでにブックマークされているか確認する
-    if ($this->exists_in_favorites($micropostId)) {
-        // 実際に削除を試み、結果にかかわらず true を返す（削除が試みられたことを意味する）
-        $this->favorites()->detach($micropostId);
-        return true;
-    } else {
-        return false;
-    }
-    }*/
 }
